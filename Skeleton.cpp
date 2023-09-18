@@ -47,8 +47,8 @@ std::shared_ptr<ChMaterialSurface> DefaultContactMaterial(ChContactMethod contac
 // left motor function 
 class ChFunction_LeftMotor : public ChFunction {
     public:
-   // ChFunction_LeftMotor() : m_speed(CH_C_1_PI/0.4f) {}
-       ChFunction_LeftMotor() : m_speed(CH_C_1_PI/4.0f){} // Works
+    ChFunction_LeftMotor() : m_speed(CH_C_1_PI/0.4f) {} // Also works for inertial regime
+    //   ChFunction_LeftMotor() : m_speed(CH_C_1_PI/4.0f){} // Works for geometric regime
   
 
 
@@ -65,28 +65,29 @@ class ChFunction_LeftMotor : public ChFunction {
      //   int g = int((x+0.2f)/0.4f) % 4;
         
      //   int g = int(x / 4.2f) % 4;
-      //  int g = int(x / 4.0f) % 4; // Works Period is 4 times the usual 
+     //   int g = int(x / 4.0f) % 4; // Works for Geometric regime
 
-        int g = int(x / 8.0f) % 8;
+     //   int g = int(x / 4.0f) % 8; // Doesn't work as expected
+        int g = int(x / 0.4f) % 8; // Doesn't work as expected
 
-     //   int g = int(x / 0.4f) % 4; // Doesn't work as expected
+     //   int g = int(x / 0.4f) % 4; // Works for inertial regime
      //   int g = (int(x / 0.4f) + 1) % 4;
 
  
 
-        //double velo;
-       // switch (g) {
-         //   case 0:
-         //       return 0;
-         //   case 1:
-         //       return m_speed;
-         //   case 2:
-         //      return 0;
-         //   case 3:
-         //       return -m_speed;
+      //  double velo;
+      //  switch (g) {
+       //     case 0:
+        //        return 0;
+        //    case 1:
+        //        return m_speed;
+        //    case 2:
+       //        return 0;
+        //    case 3:
+        //        return -m_speed;
        // }
 
-        double velo;
+       double velo;
         switch (g) {
         case 0:
             return 0;
@@ -115,9 +116,9 @@ class ChFunction_LeftMotor : public ChFunction {
 
 class ChFunction_RightMotor : public ChFunction {
     public:
-    //ChFunction_RightMotor() : m_speed(CH_C_1_PI/0.4f) {}
-     ChFunction_RightMotor() : m_speed(CH_C_1_PI/4.0f){}    // Works
-   // ChFunction_RightMotor() : m_speed(CH_C_1_PI/0.4f){}
+    ChFunction_RightMotor() : m_speed(CH_C_1_PI/0.4f) {}      // Works for inertial regime
+    // ChFunction_RightMotor() : m_speed(CH_C_1_PI/4.0f){}    // Works for geometric regime 
+    //ChFunction_RightMotor() : m_speed(CH_C_1_PI/0.4f){}
 
     ChFunction_RightMotor(double speed): m_speed(speed){}
 
@@ -126,26 +127,27 @@ class ChFunction_RightMotor : public ChFunction {
 
     virtual double Get_y(double x) const override { 
 
-       // int g = int(x/0.4f) % 4;
-      //  int g = int(x / 4.0f) % 4;   // Works
+     //   int g = int(x/0.4f) % 4;       // Works for inertial
+     //   int g = int(x / 4.0f) % 4;   // Works for geometric
         
-    //    int g = int(x / 0.4f) % 4; // Doesn't work
-       // int g = int((x / 0.4f) + 1) % 4;
-         int g = int(x / 8.0f) % 8;
+    
+         int g = int(x / 0.4f) % 8;   // Doesn't work as expected
 
 
 
-        //double velo;
-        //switch (g) {
-         //   case 0:
-         //       return m_speed;
-         //   case 1:
-         //       return 0;
-          //  case 2:
-         //       return -m_speed;
-          //  case 3:
-          //      return 0;
-       // }
+        /*double velo;
+        switch (g) {
+            case 0:
+                return m_speed;
+            case 1:
+                return 0;
+            case 2:
+                return -m_speed;
+            case 3:
+                return 0;
+        }*/
+
+
          double velo;
          switch (g) {
          case 0:
@@ -169,8 +171,8 @@ class ChFunction_RightMotor : public ChFunction {
     }
 
 
-    private:
-    double m_speed;
+     private:
+     double m_speed;
 };
 
 
@@ -260,9 +262,9 @@ class Skeleton{
             left_motor->Initialize(left_arm, center_body, ChFrame<>(left_motor_pos + m_skeleton_center, Q_from_AngAxis(CH_C_PI_2, VECT_X)));
             // initialize motor velocity function, speed of pi/4
             //auto left_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI/0.4f);
-            auto left_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI / 4.0f);  // Works
+            auto left_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI / 0.4f);  // Works for geometric
           //  auto left_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI / 0.4);
-         //   auto left_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI / 0.4f);
+         //   auto left_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI / 0.4f);  // Works for inertial
             left_motor->SetSpeedFunction(left_motor_velo_func);
 
 
@@ -295,8 +297,8 @@ class Skeleton{
             right_motor = chrono_types::make_shared<ChLinkMotorRotationSpeed>();
             right_motor->Initialize(right_arm, center_body, ChFrame<>(right_motor_pos + m_skeleton_center, Q_from_AngAxis(-CH_C_PI_2, VECT_X)));
 
-           // auto right_motor_velo_func = chrono_types::make_shared<ChFunction_RightMotor>(CH_C_PI/0.4f);
-            auto right_motor_velo_func = chrono_types::make_shared<ChFunction_RightMotor>(CH_C_PI / 4.0f);  // Works
+            auto right_motor_velo_func = chrono_types::make_shared<ChFunction_RightMotor>(CH_C_PI/0.4f);  // Works for inertial
+            //auto right_motor_velo_func = chrono_types::make_shared<ChFunction_RightMotor>(CH_C_PI / 4.0f);  // Works for geometric
             //auto right_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI / 0.4);
             right_motor->SetSpeedFunction(right_motor_velo_func);
 
