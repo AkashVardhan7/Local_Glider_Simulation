@@ -201,7 +201,7 @@ int main(int argc, char* argv[]) {
     // Skeleton skeleton1(ChVector<double>(0.00f, 0.0f, 0.00f), -1.954769e+00, -CH_C_PI_2, -CH_C_PI_2, 11);
 
  //   Skeleton skeleton1(ChVector<double>(S1_pos_x, 0.0f, S1_pos_z), S1_theta, -CH_C_PI_2-0.0278, -CH_C_PI_2-0.0278, 11); // Originally then modified the amplitudes
-    Skeleton skeleton1(ChVector<double>(S1_pos_x, 0.0f, S1_pos_z), S1_theta, -CH_C_PI_2 , -CH_C_PI_2 , 11);
+    Skeleton skeleton1(ChVector<double>(S1_pos_x, 0.0f, S1_pos_z), -CH_C_1_PI, 0 , 0 , 11);
 
     
 
@@ -221,8 +221,8 @@ int main(int argc, char* argv[]) {
     // Skeleton skeleton2(ChVector<double>(-7.421433e-02, 0.0f, 1.207832e-02), 1.186824e+00, -CH_C_PI_2, -CH_C_PI_2, 12); 
 
    // Skeleton skeleton2(ChVector<double>(S2_pos_x, 0.0f, S2_pos_z), S2_theta, -CH_C_PI_2+0.0278, -CH_C_PI_2+0.0278, 12);  // Originally and then modified the amplitudes
-    Skeleton skeleton2(ChVector<double>(S2_pos_x, 0.0f, S2_pos_z), S2_theta, -CH_C_PI_2 , -CH_C_PI_2 , 12);
     
+    Skeleton skeleton2(ChVector<double>(S2_pos_x, 0.0f, S2_pos_z), S2_theta, 0 , 0 , 12);
 
     skeleton2.SetContactMethod(sys->GetContactMethod());
     skeleton2.SetSkeletonName("skel2");

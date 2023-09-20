@@ -262,7 +262,7 @@ class Skeleton{
             left_motor->Initialize(left_arm, center_body, ChFrame<>(left_motor_pos + m_skeleton_center, Q_from_AngAxis(CH_C_PI_2, VECT_X)));
             // initialize motor velocity function, speed of pi/4
             //auto left_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI/0.4f);
-            auto left_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI / 0.4f);  // Works for geometric
+            auto left_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI_2 / 0.4f);  // Works for geometric
           //  auto left_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI / 0.4);
          //   auto left_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI / 0.4f);  // Works for inertial
             left_motor->SetSpeedFunction(left_motor_velo_func);
@@ -297,7 +297,7 @@ class Skeleton{
             right_motor = chrono_types::make_shared<ChLinkMotorRotationSpeed>();
             right_motor->Initialize(right_arm, center_body, ChFrame<>(right_motor_pos + m_skeleton_center, Q_from_AngAxis(-CH_C_PI_2, VECT_X)));
 
-            auto right_motor_velo_func = chrono_types::make_shared<ChFunction_RightMotor>(CH_C_PI/0.4f);  // Works for inertial
+            auto right_motor_velo_func = chrono_types::make_shared<ChFunction_RightMotor>(CH_C_PI_2 /0.4f);  // Works for inertial
             //auto right_motor_velo_func = chrono_types::make_shared<ChFunction_RightMotor>(CH_C_PI / 4.0f);  // Works for geometric
             //auto right_motor_velo_func = chrono_types::make_shared<ChFunction_LeftMotor>(CH_C_PI / 0.4);
             right_motor->SetSpeedFunction(right_motor_velo_func);
